@@ -2,7 +2,7 @@ baseURL: "https://nkoguchi-dev.github.io/profile/"
 title: profile
 paginate: 5
 theme: PaperMod
-publishDir: docs
+publishDir: public
 
 enableRobotsTXT: true
 buildDrafts: false
