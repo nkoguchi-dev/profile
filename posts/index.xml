@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on profile</title>
+    <link>https://nkoguchi-dev.github.io/profile/posts/</link>
+    <description>Recent content in Posts on profile</description>
+    <image>
+      <url>https://nkoguchi-dev.github.io/profile/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://nkoguchi-dev.github.io/profile/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 09 Oct 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://nkoguchi-dev.github.io/profile/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OAuth2.0で使うトークンの種類について調べてみた</title>
+      <link>https://nkoguchi-dev.github.io/profile/posts/2022-10-09/</link>
+      <pubDate>Sun, 09 Oct 2022 00:00:00 +0900</pubDate>
+      
+      <guid>https://nkoguchi-dev.github.io/profile/posts/2022-10-09/</guid>
+      <description>はじめに 業務での打ち合わせ中に「認証にｘｘｘｘなトークンを使うならBearerではなく◯◯◯◯を使うんだっけ？」みたいな会話が出てきた時に、 そうだっけ？あまり聞いた事無いな？と認証まわりについて自分の知識が曖昧だった事に気付きました。
+現在私はトークンでの認証についてふんわりした知識しかありませんので、 この文章はRFCを眺めてトークン認証についてもう少し知識を身に着けておこう。という目的であれこれ調べた事が書いてあります。
+調べたこと て事で、OAuth2.0で認証してその後APIを呼ぶ場合はヘッダのAuthorizationにBearerって書いて貰ったを載せているけど、Bearer以外に何か別の値が入ることはあるのか？ Bearer以外にはどんな種類があるんだろう？
+という辺りを調べてみました。
+Bearerとはなんぞや よく聞くし使っているけど「これは何？」と聞かれたら困ってしまうので、まずはBearerの仕様から調べてみました。 Bearerトークンの仕様はRFC 6750に書いてあって、BearerはOAuth2.0で保護されたリソースにアクセスする為の仕様と書いてあります。 APIリクエスト時にHTTPヘッダのAuthorizationにくっつけるAuthentication Schemeの一種ですね。
+1 2 3 GET /resource HTTP/1.1 Host: server.example.com Authorization: Bearer mF_9.B5f-4.1JqM　←ココ！ RFC 6750から引用しましたが、HTTPリクエストのヘッダについてるコレですね。
+OAuth2.0で扱うトークンについて調べてみた 知りたいのはBearer以外の値ですので続いてOAuth2.0の仕様をRFC6749見てみると、Section 7.1にAccess Tokenの種類としてBearerのようなトークンとMACのようなトークンがありますよ。と2種類が例として挙げられています。
+Bearerは良いとしてMAC形式って何？と調べていくうちにMACとは別物ですがproof-of-posettionというトークンの方式がある事を知りました。 こちらのページ5. Proof of Possessionで説明されているのですが、 トークンを盗まれたらそのまま使われてしまうBearerトークンが電車の切符、proof-of-posttion形式が国際線の乗車券という表現が非常に分かりやすいですね。 PoPとMACは別物のようですが、Client側がトークンに署名を付ける為トークンが漏れても使えないという点が共通しているようです。
+OAuth2.0の仕様では簡易に扱えるトークンと機密性重視のトークンの2種類が紹介されていたという訳ですかね。
+Authentication Schemeにはどんな種類がある？ OAuth2.0で使われているAuthentication Schemeはなんとなく分かったけど、他にどんな種類があるのか？というのを調べてみました。 あれこれググって出てきたのがIANAの資料Hypertext Transfer Protocol (HTTP) Authentication Scheme Registryです。 ここにAuthentication Scheme Nameとして利用可能な物が10種類載っていますが、よく見てみると Standards Track なのはBasic, Bearer, Digest, vapidの4種類でした。 他の物は Experimental と Informational なので参考程度で良さそうです。
+Standards Trackの4種類についてですが、BasicはBasic認証で利用、DigestはBasicのハッシュ化（乱暴すぎる？）、vapidはWebPushで使う方式、BearerはOAuth2.0で利用。 という感じでした。 要するに実用段階のスキーマは4つしか無いって事で良いんですかね……？少なすぎない？ホント？ 考えていたよりずっと少なくて驚きました。</description>
+    </item>
+    
+  </channel>
+</rss>
